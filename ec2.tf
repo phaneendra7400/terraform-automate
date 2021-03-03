@@ -82,6 +82,6 @@ host = "self.public_ip"
 }
 
 output "ec2_instance" {
-    value = "${aws_instance.ec2_instance.public_ip}"
+    value = "${aws_instance.ec2_instance.0.public_ip}"
 }
   

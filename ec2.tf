@@ -3,7 +3,7 @@ provider "aws" {
 }
 
 resource "aws_instance" "ec2_instance" {
-  ami           = "ami-08e0ca9924195beba"
+  ami           = "ami-0eeb03e72075b9bcc"
   count=1
   key_name = "ansible"
   instance_type = "t2.micro"
@@ -44,8 +44,8 @@ resource "aws_security_group" "security_tom_port" {
  # outbound from tomcat server
   egress {
     from_port   = 0
-    to_port     = 65535
-    protocol    = "tcp"
+    to_port     = 0
+    protocol    = "-1"
     cidr_blocks = ["0.0.0.0/0"]
   }
 
@@ -56,8 +56,9 @@ resource "aws_security_group" "security_tom_port" {
     connection {
 type = "ssh"
 user = "ec2-user"
-private_key= "ansible.pem"
-host = "self.public_ip"
+host = "$(self.public_ip)"
+private_key="${file("ansible.pem")}"
+
     }
      provisioner "file" {
     source      = "playbook.yaml"
